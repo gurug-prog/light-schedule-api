@@ -33,7 +33,7 @@ But you can also manually install all the dependencies (.NET 8, MS SQL Server) a
 
 ## Usage
 
-Before using API of the project you can fill the database with dummy values.
+Before using API of the project you can fill the database with dummy values (addresses and light groups for correct work are required) and export your schedules.
 
 Next you can start using this API using built-in Swagger UI by the link: https://localhost:5050/swagger/index.html
 
@@ -41,5 +41,5 @@ However, you can also do it in your own HTTP-client (curl, Postman, Insomnia, et
 
 ## Sql scripts
 
-Example of managing and manipulating with data of the relational model in SQL can be found [here](./sql-scripts).
+Examples of managing and manipulating with data of the relational model in SQL can be found [here](./sql-scripts).
 
