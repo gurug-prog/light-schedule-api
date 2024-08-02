@@ -67,8 +67,9 @@ public class ScheduleAppService : IScheduleAppService
             }
 
             var today = DateTime.Now;
+            var dayOfWeek = today.ToString("dddd").ToLowerInvariant();
             var effectiveSchedule = groupEntity.Schedules
-                .Where(s => s.Day == today.ToString("dddd")
+                .Where(s => s.Day.ToLowerInvariant() == dayOfWeek
                     && s.StartTime <= today.TimeOfDay
                     && today.TimeOfDay <= s.FinishTime)
                 .FirstOrDefault();

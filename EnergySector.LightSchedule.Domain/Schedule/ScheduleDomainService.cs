@@ -1,5 +1,6 @@
 ﻿using EnergySector.LightSchedule.Domain.Entities;
 using EnergySector.LightSchedule.Domain.Repositories;
+using EnergySector.LightSchedule.Domain.Schedule.FileValidations.Validators;
 using EnergySector.LightSchedule.Domain.Schedule.Validators;
 using EnergySector.LightSchedule.Domain.Shared;
 using Microsoft.Extensions.Logging;
@@ -22,6 +23,7 @@ public class ScheduleDomainService
         {
             { ValidationType.LineParts, new LineFormatValidator() },
             { ValidationType.ScheduleGroupId, new GroupIdValidator() },
+            { ValidationType.DayOfWeek, new DayOfWeekValidator() },
             { ValidationType.TimeRange, new TimeRangeValidator() },
             { ValidationType.StartTime, new StartTimeValidator() },
             { ValidationType.FinishTime, new FinishTimeValidator() }
@@ -120,7 +122,7 @@ public class ScheduleDomainService
             {
                 var parts = (string[])_fileValidatorsMap[ValidationType.LineParts].Validate(line);
                 var groupId = (int)_fileValidatorsMap[ValidationType.ScheduleGroupId].Validate(parts[0]);
-                var day = parts[1].Trim();
+                var day = (string)_fileValidatorsMap[ValidationType.DayOfWeek].Validate(parts[1]);
 
                 for (int i = 2; i < parts.Length; i++)
                 {

@@ -5,7 +5,8 @@ public enum ValidationType
     None = 0,
     LineParts = 100,
     ScheduleGroupId = 200,
-    TimeRange = 300,
-    StartTime = 400,
-    FinishTime = 500,
+    DayOfWeek = 300,
+    TimeRange = 400,
+    StartTime = 500,
+    FinishTime = 600,
 }
