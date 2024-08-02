@@ -1,6 +1,6 @@
 ﻿namespace EnergySector.LightSchedule.Application.Contracts;
 
-public interface IScheduleAppService
+public interface ILightGroupAppService
 {
     Task<List<LightGroupDto>> ExportSchedules(
         IList<int>? groupIds = null,

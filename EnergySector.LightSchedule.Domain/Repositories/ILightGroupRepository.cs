@@ -2,7 +2,7 @@
 
 namespace EnergySector.LightSchedule.Domain.Repositories;
 
-public interface IScheduleRepository
+public interface ILightGroupRepository
 {
     Task<LightGroupEntity> GetGroupById(
         int groupId,

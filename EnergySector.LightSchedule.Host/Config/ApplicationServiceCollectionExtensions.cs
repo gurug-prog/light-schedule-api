@@ -18,9 +18,9 @@ public static class ApplicationServiceCollectionExtensions
         });
 
         services
-            .AddTransient<IScheduleAppService, ScheduleAppService>()
-            .AddTransient<ScheduleDomainService>()
-            .AddTransient<IScheduleRepository, ScheduleRepository>();
+            .AddTransient<ILightGroupAppService, LightGroupAppService>()
+            .AddTransient<LightGroupDomainService>()
+            .AddTransient<ILightGroupRepository, LightGroupRepository>();
 
         return services;
     }

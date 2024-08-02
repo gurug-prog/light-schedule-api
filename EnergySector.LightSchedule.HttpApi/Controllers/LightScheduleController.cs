@@ -10,11 +10,11 @@ namespace EnergySector.LightSchedule.HttpApi.Controllers;
 public class LightScheduleController : ControllerBase
 {
     private readonly ILogger<LightScheduleController> _logger;
-    private readonly IScheduleAppService _scheduleAppService;
+    private readonly ILightGroupAppService _scheduleAppService;
 
     public LightScheduleController(
         ILogger<LightScheduleController> logger,
-        IScheduleAppService scheduleAppService)
+        ILightGroupAppService scheduleAppService)
     {
         _logger = logger;
         _scheduleAppService = scheduleAppService;
@@ -23,7 +23,7 @@ public class LightScheduleController : ControllerBase
     [HttpPost("ImportSchedules")]
     public async Task<bool> ImportSchedules(IFormFile inputFile)
     {
-        _logger.LogInformation("ScheduleController.ImportSchedules started");
+        _logger.LogInformation("LightScheduleController.ImportSchedules started");
 
         var result = await _scheduleAppService.ImportSchedules(new ScheduleFileUploadDto
         {
@@ -31,7 +31,7 @@ public class LightScheduleController : ControllerBase
             ReadStream = inputFile.OpenReadStream()
         });
 
-        _logger.LogInformation("ScheduleController.ImportSchedules finished");
+        _logger.LogInformation("LightScheduleController.ImportSchedules finished");
 
         return result;
     }
@@ -42,12 +42,12 @@ public class LightScheduleController : ControllerBase
         [FromQuery] bool withSchedules = false,
         [FromQuery] bool withAddresses = false)
     {
-        _logger.LogInformation($"ScheduleController.ExportSchedules started");
+        _logger.LogInformation($"LightScheduleController.ExportSchedules started");
 
         var result = await _scheduleAppService
             .ExportSchedules(groupIds, withSchedules, withAddresses);
 
-        _logger.LogInformation($"ScheduleController.ExportSchedules finished");
+        _logger.LogInformation($"LightScheduleController.ExportSchedules finished");
 
         return result;
     }
@@ -55,25 +55,25 @@ public class LightScheduleController : ControllerBase
     [HttpGet("GetGroupShutdown")]
     public async Task<LightGroupShutdownDto> GetGroupShutdown([FromQuery] int groupId)
     {
-        _logger.LogInformation($"ScheduleController.GetGroupShutdown started");
+        _logger.LogInformation($"LightScheduleController.GetGroupShutdown started");
 
         var result = await _scheduleAppService.GetGroupShutdown(groupId);
 
-        _logger.LogInformation($"ScheduleController.GetGroupShutdown finished");
+        _logger.LogInformation($"LightScheduleController.GetGroupShutdown finished");
 
         return result;
     }
 
-    [HttpPost("UpdateSchedule")]
-    public async Task<LightGroupDto> UpdateSchedule(
+    [HttpPost("UpdateGroupSchedules")]
+    public async Task<LightGroupDto> UpdateGroupSchedules(
         [FromQuery] int groupId,
         [FromBody] IList<ScheduleDto> schedules)
     {
-        _logger.LogInformation($"ScheduleController.UpdateSchedule started");
+        _logger.LogInformation($"LightScheduleController.UpdateGroupSchedules started");
 
         var result = await _scheduleAppService.UpdateGroupSchedules(groupId, schedules);
 
-        _logger.LogInformation($"ScheduleController.UpdateSchedule finished");
+        _logger.LogInformation($"LightScheduleController.UpdateGroupSchedules finished");
 
         return result;
     }

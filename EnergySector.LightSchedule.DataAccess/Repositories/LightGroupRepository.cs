@@ -7,11 +7,11 @@ using Microsoft.Extensions.Logging;
 
 namespace EnergySector.LightSchedule.DataAccess.Repositories;
 
-public class ScheduleRepository : IScheduleRepository
+public class LightGroupRepository : ILightGroupRepository
 {
-    private readonly ILogger<ScheduleRepository> _logger;
+    private readonly ILogger<LightGroupRepository> _logger;
 
-    public ScheduleRepository(ILogger<ScheduleRepository> logger)
+    public LightGroupRepository(ILogger<LightGroupRepository> logger)
     {
         _logger = logger;
     }
@@ -21,7 +21,7 @@ public class ScheduleRepository : IScheduleRepository
         bool withSchedules = false,
         bool withAddresses = false)
     {
-        _logger.LogInformation("ScheduleRepository.GetGroupById started");
+        _logger.LogInformation("LightGroupRepository.GetGroupById started");
         LightGroupEntity result = new(0);
         try
         {
@@ -35,12 +35,12 @@ public class ScheduleRepository : IScheduleRepository
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "ScheduleRepository.GetGroupById failed");
+            _logger.LogError(ex, "LightGroupRepository.GetGroupById failed");
             throw;
         }
         finally
         {
-            _logger.LogInformation("ScheduleRepository.GetGroupById finished");
+            _logger.LogInformation("LightGroupRepository.GetGroupById finished");
         }
 
         return result;
@@ -51,7 +51,7 @@ public class ScheduleRepository : IScheduleRepository
         bool withSchedules = false,
         bool withAddresses = false)
     {
-        _logger.LogInformation("ScheduleRepository.GetList started");
+        _logger.LogInformation("LightGroupRepository.GetList started");
         List<LightGroupEntity> result = [];
         try
         {
@@ -64,12 +64,12 @@ public class ScheduleRepository : IScheduleRepository
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "ScheduleRepository.GetList failed");
+            _logger.LogError(ex, "LightGroupRepository.GetList failed");
             throw;
         }
         finally
         {
-            _logger.LogInformation("ScheduleRepository.GetList finished");
+            _logger.LogInformation("LightGroupRepository.GetList finished");
         }
 
         return result;
@@ -77,7 +77,7 @@ public class ScheduleRepository : IScheduleRepository
 
     public async Task<bool> ImportSchedules(List<ScheduleEntity> schedules)
     {
-        _logger.LogInformation("ScheduleRepository.ImportSchedules started");
+        _logger.LogInformation("LightGroupRepository.ImportSchedules started");
         bool result = false;
         try
         {
@@ -90,12 +90,12 @@ public class ScheduleRepository : IScheduleRepository
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "ScheduleRepository.ImportSchedules failed");
+            _logger.LogError(ex, "LightGroupRepository.ImportSchedules failed");
             throw;
         }
         finally
         {
-            _logger.LogInformation("ScheduleRepository.ImportSchedules finished");
+            _logger.LogInformation("LightGroupRepository.ImportSchedules finished");
         }
 
         return result;
@@ -105,7 +105,7 @@ public class ScheduleRepository : IScheduleRepository
         int groupId,
         IList<ScheduleEntity> schedules)
     {
-        _logger.LogInformation("ScheduleRepository.UpdateGroupSchedules started");
+        _logger.LogInformation("LightGroupRepository.UpdateGroupSchedules started");
         LightGroupEntity result = new(0);
         try
         {
@@ -143,12 +143,12 @@ public class ScheduleRepository : IScheduleRepository
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "ScheduleRepository.UpdateGroupSchedules failed");
+            _logger.LogError(ex, "LightGroupRepository.UpdateGroupSchedules failed");
             throw;
         }
         finally
         {
-            _logger.LogInformation("ScheduleRepository.UpdateGroupSchedules finished");
+            _logger.LogInformation("LightGroupRepository.UpdateGroupSchedules finished");
         }
 
         return result;

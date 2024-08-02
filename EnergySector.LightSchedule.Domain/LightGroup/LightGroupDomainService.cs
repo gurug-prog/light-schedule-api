@@ -7,15 +7,15 @@ using Microsoft.Extensions.Logging;
 
 namespace EnergySector.LightSchedule.Domain.Schedule;
 
-public class ScheduleDomainService
+public class LightGroupDomainService
 {
-    private readonly ILogger<ScheduleDomainService> _logger;
-    private readonly IScheduleRepository _scheduleRepository;
+    private readonly ILogger<LightGroupDomainService> _logger;
+    private readonly ILightGroupRepository _scheduleRepository;
     private readonly IDictionary<ValidationType, IScheduleFileValidator> _fileValidatorsMap;
 
-    public ScheduleDomainService(
-        ILogger<ScheduleDomainService> logger,
-        IScheduleRepository scheduleRepository)
+    public LightGroupDomainService(
+        ILogger<LightGroupDomainService> logger,
+        ILightGroupRepository scheduleRepository)
     {
         _logger = logger;
         _scheduleRepository = scheduleRepository;
@@ -37,7 +37,7 @@ public class ScheduleDomainService
         bool withAddresses = false)
     {
         List<LightGroupEntity> result = [];
-        _logger.LogInformation("ScheduleDomainService.ExportSchedules started");
+        _logger.LogInformation("LightGroupDomainService.ExportSchedules started");
         try
         {
             result = await _scheduleRepository
@@ -45,12 +45,12 @@ public class ScheduleDomainService
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "ScheduleDomainService.ExportSchedules failed");
+            _logger.LogError(ex, "LightGroupDomainService.ExportSchedules failed");
             throw;
         }
         finally
         {
-            _logger.LogInformation("ScheduleDomainService.ExportSchedules finished");
+            _logger.LogInformation("LightGroupDomainService.ExportSchedules finished");
         }
 
         return result;
@@ -62,7 +62,7 @@ public class ScheduleDomainService
         bool withAddresses = false)
     {
         LightGroupEntity result = new(0);
-        _logger.LogInformation("ScheduleDomainService.ExportSchedules started");
+        _logger.LogInformation("LightGroupDomainService.ExportSchedules started");
         try
         {
             result = await _scheduleRepository.GetGroupById(
@@ -70,12 +70,12 @@ public class ScheduleDomainService
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "ScheduleDomainService.ExportSchedules failed");
+            _logger.LogError(ex, "LightGroupDomainService.ExportSchedules failed");
             throw;
         }
         finally
         {
-            _logger.LogInformation("ScheduleDomainService.ExportSchedules finished");
+            _logger.LogInformation("LightGroupDomainService.ExportSchedules finished");
         }
 
         return result;
@@ -84,7 +84,7 @@ public class ScheduleDomainService
     public async Task<bool> ImportFile(string fileName, Stream readStream)
     {
         bool result = false;
-        _logger.LogInformation("ScheduleDomainService.ImportFile started");
+        _logger.LogInformation("LightGroupDomainService.ImportFile started");
         try
         {
             const string permittedFileExtension = ".txt";
@@ -99,12 +99,12 @@ public class ScheduleDomainService
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "ScheduleDomainService.ImportFile failed");
+            _logger.LogError(ex, "LightGroupDomainService.ImportFile failed");
             throw;
         }
         finally
         {
-            _logger.LogInformation("ScheduleDomainService.ImportFile finished");
+            _logger.LogInformation("LightGroupDomainService.ImportFile finished");
         }
 
         return result;
@@ -157,7 +157,7 @@ public class ScheduleDomainService
         IList<ScheduleEntity> schedules)
     {
         LightGroupEntity result = new(0);
-        _logger.LogInformation("ScheduleDomainService.UpdateGroupSchedules started");
+        _logger.LogInformation("LightGroupDomainService.UpdateGroupSchedules started");
         try
         {
             if (schedules.Count == 0)
@@ -169,12 +169,12 @@ public class ScheduleDomainService
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "ScheduleDomainService.UpdateGroupSchedules failed");
+            _logger.LogError(ex, "LightGroupDomainService.UpdateGroupSchedules failed");
             throw;
         }
         finally
         {
-            _logger.LogInformation("ScheduleDomainService.UpdateGroupSchedules finished");
+            _logger.LogInformation("LightGroupDomainService.UpdateGroupSchedules finished");
         }
 
         return result;

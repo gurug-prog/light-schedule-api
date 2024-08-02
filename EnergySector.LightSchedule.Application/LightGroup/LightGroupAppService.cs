@@ -6,16 +6,16 @@ using Microsoft.Extensions.Logging;
 
 namespace EnergySector.LightSchedule.Application.Schedule;
 
-public class ScheduleAppService : IScheduleAppService
+public class LightGroupAppService : ILightGroupAppService
 {
-    private readonly ILogger<ScheduleAppService> _logger;
+    private readonly ILogger<LightGroupAppService> _logger;
     private readonly IMapper _mapper;
-    private readonly ScheduleDomainService _scheduleDomainService;
+    private readonly LightGroupDomainService _scheduleDomainService;
 
-    public ScheduleAppService(
-        ILogger<ScheduleAppService> logger,
+    public LightGroupAppService(
+        ILogger<LightGroupAppService> logger,
         IMapper mapper,
-        ScheduleDomainService scheduleDomainService)
+        LightGroupDomainService scheduleDomainService)
     {
         _logger = logger;
         _mapper = mapper;
@@ -28,7 +28,7 @@ public class ScheduleAppService : IScheduleAppService
         bool withAddresses = false)
     {
         List<LightGroupDto> result = [];
-        _logger.LogInformation("ScheduleAppService.ImportSchedules started");
+        _logger.LogInformation("LightGroupAppService.ImportSchedules started");
         try
         {
             var entities = await _scheduleDomainService
@@ -37,12 +37,12 @@ public class ScheduleAppService : IScheduleAppService
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "ScheduleAppService.ImportSchedules failed");
+            _logger.LogError(ex, "LightGroupAppService.ImportSchedules failed");
             throw;
         }
         finally
         {
-            _logger.LogInformation("ScheduleAppService.ImportSchedules finished");
+            _logger.LogInformation("LightGroupAppService.ImportSchedules finished");
         }
 
         return result;
@@ -51,7 +51,7 @@ public class ScheduleAppService : IScheduleAppService
     public async Task<LightGroupShutdownDto> GetGroupShutdown(int groupId)
     {
         LightGroupShutdownDto result = new();
-        _logger.LogInformation("ScheduleAppService.GetGroupShutdown started");
+        _logger.LogInformation("LightGroupAppService.GetGroupShutdown started");
         try
         {
             var groupEntity = await _scheduleDomainService
@@ -88,12 +88,12 @@ public class ScheduleAppService : IScheduleAppService
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "ScheduleAppService.GetGroupShutdown failed");
+            _logger.LogError(ex, "LightGroupAppService.GetGroupShutdown failed");
             throw;
         }
         finally
         {
-            _logger.LogInformation("ScheduleAppService.GetGroupShutdown finished");
+            _logger.LogInformation("LightGroupAppService.GetGroupShutdown finished");
         }
 
         return result;
@@ -102,19 +102,19 @@ public class ScheduleAppService : IScheduleAppService
     public async Task<bool> ImportSchedules(ScheduleFileUploadDto file)
     {
         bool result = false;
-        _logger.LogInformation("ScheduleAppService.ImportSchedules started");
+        _logger.LogInformation("LightGroupAppService.ImportSchedules started");
         try
         {
             result = await _scheduleDomainService.ImportFile(file.FileName, file.ReadStream);
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "ScheduleAppService.ImportSchedules failed");
+            _logger.LogError(ex, "LightGroupAppService.ImportSchedules failed");
             throw;
         }
         finally
         {
-            _logger.LogInformation("ScheduleAppService.ImportSchedules finished");
+            _logger.LogInformation("LightGroupAppService.ImportSchedules finished");
         }
 
         return result;
@@ -125,7 +125,7 @@ public class ScheduleAppService : IScheduleAppService
         IList<ScheduleDto> schedules)
     {
         LightGroupDto result = new();
-        _logger.LogInformation("ScheduleAppService.UpdateGroupSchedules started");
+        _logger.LogInformation("LightGroupAppService.UpdateGroupSchedules started");
         try
         {
             var scheduleEntities = _mapper.Map<IList<ScheduleDto>, IList<ScheduleEntity>>(schedules);
@@ -134,12 +134,12 @@ public class ScheduleAppService : IScheduleAppService
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "ScheduleAppService.UpdateGroupSchedules failed");
+            _logger.LogError(ex, "LightGroupAppService.UpdateGroupSchedules failed");
             throw;
         }
         finally
         {
-            _logger.LogInformation("ScheduleAppService.UpdateGroupSchedules finished");
+            _logger.LogInformation("LightGroupAppService.UpdateGroupSchedules finished");
         }
 
         return result;
