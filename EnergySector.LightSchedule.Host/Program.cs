@@ -1,5 +1,6 @@
 using EnergySector.LightSchedule.DataAccess.EntityFrameworkCore;
 using EnergySector.LightSchedule.Host.Config;
+using EnergySector.LightSchedule.Host.Middlewares;
 using Microsoft.EntityFrameworkCore;
 
 namespace EnergySector.LightSchedule.Host;
@@ -40,6 +41,8 @@ public class Program
 
 
         app.MapControllers();
+
+        app.UseMiddleware<ExceptionHandlerMiddleware>();
 
         app.Run();
     }

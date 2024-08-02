@@ -1,6 +1,7 @@
 ﻿using EnergySector.LightSchedule.Domain.Entities;
 using EnergySector.LightSchedule.Domain.Repositories;
 using EnergySector.LightSchedule.Domain.Schedule.Validators;
+using EnergySector.LightSchedule.Domain.Shared;
 using Microsoft.Extensions.Logging;
 
 namespace EnergySector.LightSchedule.Domain.Schedule;
@@ -27,12 +28,70 @@ public class ScheduleDomainService
         };
     }
 
+
+    public async Task<List<LightGroupEntity>> ExportSchedules(
+        IList<int>? groupIds = null,
+        bool withSchedules = false,
+        bool withAddresses = false)
+    {
+        List<LightGroupEntity> result = [];
+        _logger.LogInformation("ScheduleDomainService.ExportSchedules started");
+        try
+        {
+            result = await _scheduleRepository
+                .GetGroupList(groupIds, withSchedules, withAddresses);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "ScheduleDomainService.ExportSchedules failed");
+            throw;
+        }
+        finally
+        {
+            _logger.LogInformation("ScheduleDomainService.ExportSchedules finished");
+        }
+
+        return result;
+    }
+
+    public async Task<LightGroupEntity> GetGroupById(
+        int groupId,
+        bool withSchedules = false,
+        bool withAddresses = false)
+    {
+        LightGroupEntity result = new(0);
+        _logger.LogInformation("ScheduleDomainService.ExportSchedules started");
+        try
+        {
+            result = await _scheduleRepository.GetGroupById(
+                groupId, withSchedules, withAddresses);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "ScheduleDomainService.ExportSchedules failed");
+            throw;
+        }
+        finally
+        {
+            _logger.LogInformation("ScheduleDomainService.ExportSchedules finished");
+        }
+
+        return result;
+    }
+
     public async Task<bool> ImportFile(string fileName, Stream readStream)
     {
         bool result = false;
         _logger.LogInformation("ScheduleDomainService.ImportFile started");
         try
         {
+            const string permittedFileExtension = ".txt";
+            var ext = Path.GetExtension(fileName).ToLowerInvariant();
+            if (string.IsNullOrEmpty(ext) || ext != permittedFileExtension)
+            {
+                throw new BusinessException($"Unsupported file extension: '{ext}'");
+            }
+
             var schedules = await ParseFile(readStream);
             result = await _scheduleRepository.ImportSchedules(schedules);
         }
@@ -44,28 +103,6 @@ public class ScheduleDomainService
         finally
         {
             _logger.LogInformation("ScheduleDomainService.ImportFile finished");
-        }
-
-        return result;
-    }
-
-    public async Task<List<ScheduleEntity>> ExportSchedules(IList<int> groupIds, bool exportAll = false)
-    {
-        List<ScheduleEntity> result = [];
-        _logger.LogInformation("ScheduleDomainService.ExportSchedules started");
-        try
-        {
-            //var schedules = await ParseFile(readStream);
-            //await _scheduleRepository.ImportSchedules(schedules);
-            throw new NotImplementedException();
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError(ex, "ScheduleDomainService.ExportSchedules failed");
-        }
-        finally
-        {
-            _logger.LogInformation("ScheduleDomainService.ExportSchedules finished");
         }
 
         return result;
@@ -106,13 +143,39 @@ public class ScheduleDomainService
         }
         catch (Exception ex)
         {
-            throw new Exception($"An error occurred while reading the file:" +
-                Environment.NewLine +
-                ex.Message +
-                Environment.NewLine +
-                $"at line {lineNumber}");
+            throw new BusinessException($"An error occurred while reading" +
+                $"the file at line {lineNumber}: {ex.Message}");
         }
 
         return result;
     }
+
+    public async Task<LightGroupEntity> UpdateGroupSchedules(
+        int groupId,
+        IList<ScheduleEntity> schedules)
+    {
+        LightGroupEntity result = new(0);
+        _logger.LogInformation("ScheduleDomainService.UpdateGroupSchedules started");
+        try
+        {
+            if (schedules.Count == 0)
+            {
+                throw new BusinessException("You have not provided schedules to update.");
+            }
+
+            result = await _scheduleRepository.UpdateGroupSchedules(groupId, schedules);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "ScheduleDomainService.UpdateGroupSchedules failed");
+            throw;
+        }
+        finally
+        {
+            _logger.LogInformation("ScheduleDomainService.UpdateGroupSchedules finished");
+        }
+
+        return result;
+    }
+
 }

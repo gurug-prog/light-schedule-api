@@ -1,4 +1,6 @@
-﻿namespace EnergySector.LightSchedule.Domain.Schedule.Validators;
+﻿using EnergySector.LightSchedule.Domain.Shared;
+
+namespace EnergySector.LightSchedule.Domain.Schedule.Validators;
 
 public class GroupIdValidator : IScheduleFileValidator
 {
@@ -6,7 +8,7 @@ public class GroupIdValidator : IScheduleFileValidator
     {
         if (!int.TryParse(input.Trim(), out var groupId))
         {
-            throw new Exception($"Invalid group id value.");
+            throw new BusinessException($"Invalid group id value.");
         }
 
         return groupId;

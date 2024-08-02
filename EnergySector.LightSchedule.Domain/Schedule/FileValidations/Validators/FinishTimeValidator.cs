@@ -1,4 +1,5 @@
-﻿using System.Globalization;
+﻿using EnergySector.LightSchedule.Domain.Shared;
+using System.Globalization;
 
 namespace EnergySector.LightSchedule.Domain.Schedule.Validators;
 
@@ -10,7 +11,7 @@ public class FinishTimeValidator : IScheduleFileValidator
             input.Trim(), "hh\\:mm", CultureInfo.InvariantCulture, out var finishTime);
         if (!isFinishTimeValid)
         {
-            throw new Exception("Invalid finish time value.");
+            throw new BusinessException("Invalid finish time value.");
         }
 
         return finishTime;

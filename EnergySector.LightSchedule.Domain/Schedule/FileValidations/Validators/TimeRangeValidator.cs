@@ -1,4 +1,6 @@
-﻿namespace EnergySector.LightSchedule.Domain.Schedule.Validators;
+﻿using EnergySector.LightSchedule.Domain.Shared;
+
+namespace EnergySector.LightSchedule.Domain.Schedule.Validators;
 
 public class TimeRangeValidator : IScheduleFileValidator
 {
@@ -7,7 +9,7 @@ public class TimeRangeValidator : IScheduleFileValidator
         var timeParts = input.Split('-');
         if (timeParts.Length != 2)
         {
-            throw new Exception($"Invalid time range format.");
+            throw new BusinessException($"Invalid time range format.");
         }
 
         return timeParts;

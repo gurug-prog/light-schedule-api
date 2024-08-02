@@ -9,12 +9,14 @@ public class LightScheduleAutoMapperProfile : Profile
     public LightScheduleAutoMapperProfile()
     {
         CreateMap<ScheduleEntity, ScheduleDto>()
-            .ReverseMap();
+            .ReverseMap()
+            .ForMember(s => s.Group, opt => opt.Ignore());
 
         CreateMap<LightGroupEntity, LightGroupDto>()
             .ReverseMap();
 
         CreateMap<AddressEntity, AddressDto>()
-            .ReverseMap();
+            .ReverseMap()
+            .ForMember(a => a.Group, opt => opt.Ignore());
     }
 }
