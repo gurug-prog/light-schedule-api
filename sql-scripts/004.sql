@@ -2,8 +2,8 @@
 
 SELECT TOP 1 s.GroupId, g.Name, 
     SUM(DATEDIFF(MINUTE, s.StartTime, s.FinishTime)) AS TotalOutageMinutes
-FROM Schedule s
-JOIN [Group] g ON s.GroupId = g.Id
+FROM Schedules s
+JOIN Groups g ON s.GroupId = g.Id
 WHERE s.Day IN ('Понеділок', 'Вівторок', 'Середа')
 GROUP BY s.GroupId, g.Name
 ORDER BY TotalOutageMinutes DESC;

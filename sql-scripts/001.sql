@@ -1,4 +1,4 @@
 -- Відібрати адреси, яким не призначено групу
 
-SELECT * FROM Address
+SELECT * FROM Addresses
 WHERE GroupId IS NULL;
