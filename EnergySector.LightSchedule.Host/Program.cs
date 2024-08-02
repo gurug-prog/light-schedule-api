@@ -1,3 +1,7 @@
+using EnergySector.LightSchedule.DataAccess.EntityFrameworkCore;
+using EnergySector.LightSchedule.Host.Config;
+using Microsoft.EntityFrameworkCore;
+
 namespace EnergySector.LightSchedule.Host;
 
 public class Program
@@ -13,7 +17,15 @@ public class Program
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen();
 
+        // Application configuration.
+        builder.Services.AddApplicationServices();
+
         var app = builder.Build();
+
+        using (var dbContext = new LightScheduleDbContext())
+        {
+            dbContext.Database.Migrate();
+        }
 
         // Configure the HTTP request pipeline.
         if (app.Environment.IsDevelopment())
