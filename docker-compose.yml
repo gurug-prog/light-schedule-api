@@ -5,7 +5,7 @@ services:
   mssql-db:
     image: mcr.microsoft.com/mssql/server
     env_file:
-      - path: config/env/mssql.env
+      - path: config/mssql.env
     healthcheck:
       test: [
         "CMD",
@@ -21,28 +21,20 @@ services:
     volumes:
       - mssqldb:/var/opt/mssql
 
-  dbmigrator:
-    build:
-      context: aspnet-core
-      dockerfile: EnergySector.LightSchedule.DbMigrator/Dockerfile
-    depends_on:
-      mssql-db:
-        condition: service_healthy
-
   light-api:
     build:
       context: .
       dockerfile: EnergySector.LightSchedule.Host/Dockerfile
     env_file:
-      - path: config/env/light_api.env
+      - path: config/light_api.env
     ports:
      - "5050:5050"
      - "5051:5051"
     volumes:
       - ${APP_CERT_PATH}:/https/
     depends_on:
-      dbmigrator:
-        condition: service_completed_successfully
+      mssql-db:
+        condition: service_healthy
 
 volumes:
   mssqldb:

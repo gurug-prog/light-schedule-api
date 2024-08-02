@@ -12,7 +12,9 @@ public class LightScheduleDbContext : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-        optionsBuilder.UseSqlServer(@"Server=(localdb)\mssqllocaldb;Database=TestTask_Linkos;Trusted_Connection=True;");
+        optionsBuilder.UseSqlServer(
+            Environment.GetEnvironmentVariable("DB_CONNECTION_STRING")
+            ?? throw new Exception("Database connection string is not configured"));
     }
 
     protected override void OnModelCreating(ModelBuilder builder)
